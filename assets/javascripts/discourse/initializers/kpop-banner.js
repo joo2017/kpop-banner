@@ -694,7 +694,8 @@ async function fetchUnifiedSongsFromNetwork(candidates) {
 			continue;
 		}
 
-		const ichartPeriods = data?.charts?.ichart?.periods || null;
+		const ichartCharts = data?.charts?.ichart || data?.charts || null;
+		const ichartPeriods = ichartCharts?.periods || ichartCharts;
 		const mappedIchartDay = (
 			Array.isArray(ichartPeriods?.day?.items)
 				? ichartPeriods.day.items
@@ -1044,7 +1045,10 @@ async function ensureKpoppingDataAvailable() {
 }
 
 async function hydrateSongs() {
-	const candidates = [getKpopBannerDataUrl("unified")];
+	const candidates = [
+		getKpopBannerDataUrl("unified"),
+		getKpopBannerDataUrl("ichart"),
+	];
 	const kpoppingCandidates = [getKpopBannerDataUrl("kpopping")];
 	const soridataCandidates = [getKpopBannerDataUrl("soridata")];
 
