@@ -1,0 +1,29 @@
+plugins:
+  kpop_banner_enabled:
+    default: true
+    client: true
+  kpop_banner_ui_enabled:
+    default: false
+    client: true
+  kpop_banner_data_endpoint:
+    default: "/kpop/banner-data"
+    client: true
+  kpop_banner_access_mode:
+    default: "public_limited"
+    type: enum
+    choices:
+      - public_limited
+      - logged_in
+      - group
+      - admin
+  kpop_banner_allowed_groups:
+    default: ""
+    type: group_list
+  kpop_banner_data_dir:
+    default: "/var/www/kpop-data/dist"
+  kpop_banner_cache_ttl_seconds:
+    default: 86400
+  kpop_banner_reappear_minutes:
+    default: 60
+    client: true
+    min: 1

@@ -1,0 +1,767 @@
+.d-header [data-kpop-banner] {
+  display: none !important;
+}
+
+[data-kpop-banner] {
+  display: block;
+  position: static !important;
+  top: auto !important;
+  clear: both;
+  width: 100%;
+  isolation: isolate;
+}
+
+.kpop-celebration,
+.kpop-celebration *,
+.kpop-celebration *::before,
+.kpop-celebration *::after {
+  box-sizing: border-box;
+}
+
+.kpop-celebration {
+  width: 100%;
+//  max-width: 1024px;
+  position: relative;
+  margin: 12px auto;
+  color: var(--text-main);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.kpop-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  width: 100%;
+}
+
+.kpop-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 8px 32px 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  background-image: var(--select-arrow);
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  min-width: 170px;
+}
+
+.kpop-select option {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.kpop-select:hover {
+  background-color: var(--bg-active);
+  border-color: var(--text-sub);
+}
+
+.kpop-select:focus-visible {
+  border-color: var(--tertiary);
+  box-shadow: 0 0 0 2px var(--primary-low);
+}
+
+/* 1. 공통 변수 (Dark Theme Default) */
+[data-kpop-banner] {
+  --bg-body: var(--secondary);
+  --bg-card: var(--secondary);
+  --bg-sidebar: var(--secondary-very-low);
+  --text-main: var(--primary);
+  --text-muted: var(--primary-medium);
+  --text-sub: var(--primary-high);
+  --border-light: var(--primary-low);
+  --border-strong: var(--primary-low-mid);
+  --bg-hover: var(--primary-very-low);
+  --bg-active: var(--primary-low);
+  --rank-bg: var(--tertiary);
+  --rank-border: var(--secondary);
+  --rank-text: var(--secondary);
+  --accent-strong: var(--tertiary);
+  --accent-soft: var(--tertiary-low);
+  --music-show-accent: var(--tertiary);
+  --music-show-accent-soft: var(--tertiary-low);
+  --music-show-winner-bg: var(--danger-low, var(--primary-low));
+  --music-show-winner-fg: var(--danger, var(--primary));
+  --music-show-comeback-bg: var(--tertiary-low, var(--primary-low));
+  --music-show-comeback-fg: var(--tertiary, var(--primary));
+  --music-show-debut-bg: var(--highlight-low, var(--primary-low));
+  --music-show-debut-fg: var(--highlight, var(--primary));
+  --ok-color: var(--success, #16a34a);
+  --down-color: var(--danger, #dc2626);
+  --info-color: var(--primary-high);
+  --shadow-primary: none;
+  --modal-overlay: rgba(0, 0, 0, 0.7);
+  --scrollbar-thumb: var(--primary-low-mid);
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* 배너 닫기 버튼 */
+.kpop-celebration__close-banner {
+  position: absolute; top: 0; right: 0; width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--bg-hover); color: var(--text-muted);
+  border: 1px solid var(--border-strong); cursor: pointer; z-index: 50;
+  transition: all 0.2s ease;
+}
+.kpop-celebration__close-banner:hover {
+  background: var(--bg-active); color: var(--text-main); transform: scale(1.1);
+}
+
+/* 2. 핵심 레이아웃 (Core Layout) */
+.kpop-celebration__card { position: relative; }
+
+/* 배경 조명 (Glow Effect) */
+.kpop-celebration__glow {
+  display: none;
+  position: absolute; top: 50%; left: 25%;
+  width: 192px; height: 192px;
+  background-color: rgba(249, 115, 22, 0.1);
+  filter: blur(60px); border-radius: 50%;
+  transform: translateY(-50%); pointer-events: none; z-index: 0;
+}
+
+.kpop-celebration__main-row {
+  align-items: stretch; display: flex; flex-direction: row;
+  min-height: 110px; height: 110px; padding: 0;
+  background-color: var(--bg-card); border-radius: 12px;
+  border: 1px solid var(--border-light);
+  box-shadow: none;
+  position: relative; z-index: 1;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.kpop-celebration__hero-main {
+  align-items: stretch; display: flex; flex: 1;
+  gap: 12px; min-width: 0; padding: 10px 12px; position: relative;
+}
+
+/* 좌측 앨범 커버 */
+.kpop-celebration__left { flex: 0 0 72px; width: 72px; height: 72px; min-height: 72px; position: relative; display: flex; align-items: center; align-self: center; }
+.kpop-celebration__cover-link { display: block; width: 100%; height: 100%; border-radius: 8px; }
+.kpop-celebration__cover-frame { overflow: hidden; border-radius: 8px; height: 100%; }
+.kpop-celebration__cover {
+  height: 100%; width: 100%; border-radius: 8px;
+  object-fit: cover; display: block; opacity: 0;
+  transition: transform 0.5s ease, opacity 0.25s ease;
+}
+.kpop-celebration__cover.is-visible { opacity: 1; }
+.kpop-celebration__cover-link:hover .kpop-celebration__cover { transform: scale(1.05); }
+
+.kpop-celebration__cover-link:focus-visible,
+.kpop-celebration__mini-item:focus-visible,
+.kpop-celebration__details-btn:focus-visible,
+.kpop-celebration__icon-btn:focus-visible,
+.kpop-celebration__close-banner:focus-visible,
+.kpop-modal-close:focus-visible {
+  outline: 2px solid var(--tertiary);
+  outline-offset: 2px;
+}
+
+.kpop-celebration__cover-play {
+  align-items: center; background: var(--modal-overlay); color: var(--text-main);
+  display: flex; inset: 0; justify-content: center; opacity: 0;
+  position: absolute; border-radius: 8px; transition: opacity 0.3s ease;
+}
+.kpop-celebration__cover-link:hover .kpop-celebration__cover-play { opacity: 1; }
+
+.kpop-celebration__rank-badge {
+  position: absolute; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background-color: var(--rank-bg); color: var(--rank-text);
+  font-weight: 900; border: 2px solid var(--rank-border); font-size: 12px;
+  height: 24px; width: 24px; left: -6px; top: -6px;
+  z-index: 20; box-shadow: none;
+  transition: all 0.3s ease;
+}
+
+/* 중앙 텍스트 영역 */
+.kpop-celebration__center { 
+  flex: 1 1 0%; min-width: 0; min-height: 72px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;
+}
+
+.kpop-celebration__title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.kpop-celebration__title {
+  font-size: 24px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-main);
+  line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.kpop-celebration__status-wrap { flex-shrink: 0; }
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); box-shadow: none; }
+  50% { transform: scale(1.05); filter: brightness(1.2); box-shadow: none; }
+}
+
+.kpop-celebration__badge {
+  padding: 2px 6px; border-radius: 4px; font-size: 10px;
+  font-weight: 700; display: flex; align-items: center; gap: 0;
+}
+.kpop-celebration__badge--pak {
+  background-color: var(--bg-hover); color: var(--accent-strong); border: 1px solid var(--border-strong);
+  animation: none;
+}
+.kpop-celebration__badge--rak {
+  background-color: var(--bg-hover); color: var(--accent-soft); border: 1px solid var(--border-strong);
+}
+
+.kpop-celebration__badge--loading {
+  background-color: var(--bg-hover);
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+}
+.kpop-celebration__badge--winner {
+  background-color: var(--music-show-winner-bg);
+  color: var(--music-show-winner-fg);
+  border: 1px solid var(--music-show-winner-fg);
+}
+.kpop-celebration__badge--comeback {
+  background-color: var(--music-show-comeback-bg);
+  color: var(--music-show-comeback-fg);
+  border: 1px solid var(--music-show-comeback-fg);
+}
+.kpop-celebration__badge--debut {
+  background-color: var(--music-show-debut-bg);
+  color: var(--music-show-debut-fg);
+  border: 1px solid var(--music-show-debut-fg);
+}
+
+.kpop-celebration__artist {
+  font-size: 13px; color: var(--text-muted); font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.kpop-celebration__artist-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kpop-celebration__info-header { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
+.kpop-celebration__extra-info { width: 100%; min-height: 20px; min-width: 0; overflow: hidden; }
+
+.kpop-celebration__cover-badge {
+  position: absolute; left: 4px; bottom: 4px; z-index: 30;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 6px; border-radius: 6px;
+  background: var(--bg-card); border: 1px solid var(--border-strong);
+}
+.kpop-celebration__cover-badge-main { font-weight: 800; font-size: 11px; color: var(--accent-strong); }
+.kpop-celebration__cover-badge-main.is-rak { color: var(--accent-soft); }
+.kpop-celebration__cover-badge-sub { font-size: 8px; color: var(--text-sub); }
+
+/* 플랫폼 마퀴 (스크롤) */
+.kpop-celebration__platform-marquee {
+  overflow: hidden; width: 100%; position: relative;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+.kpop-celebration__platform-track {
+  animation: scrollPlatforms 15s linear infinite;
+  display: flex; flex-wrap: nowrap; gap: 6px; width: max-content;
+}
+@media (hover: hover) { .kpop-celebration__platform-marquee:hover .kpop-celebration__platform-track { animation-play-state: paused; } }
+
+.kpop-celebration__pill { 
+  border-radius: 4px; padding: 2px 6px; display: flex; align-items: center; gap: 4px; 
+  border: 1px solid var(--border-strong);
+}
+.kpop-celebration__pill.is-melon,
+.kpop-celebration__pill.is-genie,
+.kpop-celebration__pill.is-bugs,
+.kpop-celebration__pill.is-flo,
+.kpop-celebration__pill.is-vibe,
+.kpop-celebration__pill.is-youtube {
+  color: var(--text-main);
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+
+.kpop-celebration__pill-name { font-size: 10px; font-weight: 700; }
+.kpop-celebration__pill-rank { 
+  font-size: 10px; font-weight: 900; color: var(--text-main); 
+  display: flex; align-items: center;
+}
+
+[data-kpop-banner].is-loading .kpop-celebration__cover-link,
+[data-kpop-banner].is-loading .kpop-celebration__mini-item,
+[data-kpop-banner].is-loading .kpop-celebration__pill,
+[data-kpop-banner].is-loading .kpop-celebration__details-btn,
+[data-kpop-banner].is-loading .kpop-celebration__icon-btn {
+  opacity: 0.8;
+}
+
+.kpop-celebration__circle-meta { display: flex; flex-direction: column; gap: 6px; }
+.circle-badges-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 0; max-width: 100%; overflow: hidden; }
+.circle-badge { padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 700; letter-spacing: 0.03em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.circle-badge.global,
+.circle-badge.onoff,
+.circle-badge.album,
+.circle-badge.kpopping,
+.circle-badge.cert {
+  background: var(--bg-hover);
+  color: var(--text-main);
+  border: 1px solid var(--border-strong);
+}
+.circle-badge.period { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-strong); }
+.circle-info-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; color: var(--text-sub); font-size: 11px; }
+.circle-info-item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 플랫폼 내 미세 트렌드 아이콘 */
+.micro-trend {
+  display: inline-flex; align-items: center; gap: 1px;
+  font-size: 9px; font-weight: 700; margin-left: 3px;
+}
+.micro-trend.is-up { color: var(--ok-color); }
+.micro-trend.is-down { color: var(--down-color); }
+.micro-trend.is-same { color: var(--text-muted); }
+.micro-trend svg { width: 8px; height: 8px; }
+
+/* 우측 점수 영역 */
+.kpop-celebration__right {
+  flex: 0 0 max-content; min-width: max-content; min-height: 72px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;
+  gap: 8px; padding-left: 10px; padding-right: 12px !important; border-left: 1px solid var(--border-light); white-space: nowrap;
+}
+.kpop-celebration__stats { display: flex; flex-direction: column; align-items: flex-end; margin: 0; }
+.kpop-celebration__points { font-size: 32px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; color: var(--text-main); }
+.kpop-celebration__points-label { color: var(--text-muted); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; margin-top: 4px; }
+
+.kpop-celebration__right.is-music-show {
+  align-items: flex-end;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.stage-winner-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--music-show-accent-soft);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--music-show-accent);
+  margin-bottom: 4px;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.kpop-celebration__points.stage-winner-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  width: 100%;
+  min-width: 0;
+  font-size: inherit;
+  letter-spacing: normal;
+}
+
+.stage-winner-title {
+  color: var(--music-show-accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.stage-winner-artist {
+  max-width: 160px;
+  color: var(--text-main);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stage-winner-song {
+  max-width: 150px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+.history-item { display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: var(--bg-hover); border: 1px solid var(--border-light); padding: 12px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; width: 100%; }
+.history-item:hover { background: var(--bg-active); border-color: var(--text-sub); transform: translateY(-1px); }
+.history-show { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
+.history-date { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+.history-winner { font-size: 12px; font-weight: 700; color: var(--music-show-accent); }
+.kpop-history-modal-content { max-width: 480px; }
+.kpop-history-modal-body { padding: 16px; }
+
+/* 액션 버튼 그룹 */
+.kpop-celebration__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (min-width: 901px) {
+  .kpop-celebration__hero-main { min-width: 0; }
+  .kpop-celebration__center { min-width: 150px; }
+  .kpop-celebration__hero-main.is-music-show .kpop-celebration__right {
+    margin-left: auto;
+  }
+  .kpop-celebration__platform-marquee { min-height: 18px; max-width: 100%; }
+  .kpop-celebration__right {
+    flex: 0 1 auto;
+    min-width: 150px;
+    white-space: normal;
+  }
+  .kpop-celebration__actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .kpop-celebration__right.is-music-show {
+    flex: 0 0 192px;
+    min-width: 192px;
+  }
+  .kpop-celebration__right.is-music-show .kpop-celebration__actions {
+    flex-wrap: nowrap;
+  }
+
+  [data-kpop-banner] .kpop-celebration__extra-info > .kpop-celebration__platform-marquee {
+    flex: 0 0 auto !important;
+    min-height: 20px !important;
+  }
+}
+
+.kpop-celebration__source-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-hover);
+}
+
+.kpop-celebration__source-btn {
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kpop-celebration__source-btn:hover {
+  color: var(--text-main);
+}
+
+.kpop-celebration__source-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.kpop-celebration__source-btn.is-active {
+  background: var(--bg-card);
+  border-color: var(--border-strong);
+  color: var(--text-main);
+}
+
+.kpop-celebration__details-btn,
+.kpop-celebration__icon-btn:not(.kpop-celebration__like-btn) {
+  align-items: center; display: inline-flex; gap: 4px; font-size: 11px; font-weight: 700; border-radius: 6px;
+  background: var(--bg-hover); border: 1px solid var(--border-strong); color: var(--text-sub); cursor: pointer; transition: all 0.2s; 
+  white-space: nowrap; flex-shrink: 0; height: 28px; line-height: 1;
+}
+.kpop-celebration__details-btn { padding: 6px 10px; }
+.kpop-celebration__icon-btn:not(.kpop-celebration__like-btn) { padding: 0 8px; font-size: 14px; }
+
+.kpop-celebration__details-btn:hover,
+.kpop-celebration__icon-btn:not(.kpop-celebration__like-btn):hover { background: var(--bg-active); color: var(--text-main); }
+
+.kpop-celebration__icon-btn:not(.kpop-celebration__like-btn):hover { transform: scale(1.1); border-color: var(--accent-strong); }
+
+.kpop-celebration__actions .kpop-celebration__icon-btn.kpop-celebration__like-btn {
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.kpop-celebration__actions .kpop-celebration__icon-btn.kpop-celebration__like-btn.is-liked,
+.kpop-celebration__actions .kpop-celebration__icon-btn.kpop-celebration__like-btn[data-liked="1"] {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: var(--tertiary);
+}
+
+.kpop-celebration__actions .kpop-celebration__like-icon {
+  font-size: 18px;
+  line-height: 1;
+  display: inline-block;
+  opacity: 0.8;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  color: var(--text-muted);
+}
+
+.kpop-celebration__actions .kpop-celebration__icon-btn.kpop-celebration__like-btn.is-liked .kpop-celebration__like-icon,
+.kpop-celebration__actions .kpop-celebration__icon-btn.kpop-celebration__like-btn[data-liked="1"] .kpop-celebration__like-icon {
+  opacity: 1;
+  transform: scale(1.16);
+  color: var(--tertiary);
+}
+
+/* 우측 미니 리스트 */
+.kpop-celebration__mini-sidebar {
+  background: var(--bg-sidebar); border-left: 1px solid var(--border-strong); 
+  flex: 0 0 240px; width: 240px; display: flex; flex-direction: column;
+  justify-content: flex-start; gap: 2px; padding: 8px; 
+  overflow-y: auto; max-height: 110px; transition: background-color 0.3s ease;
+}
+.kpop-celebration__mini-sidebar::-webkit-scrollbar { width: 4px; }
+.kpop-celebration__mini-sidebar::-webkit-scrollbar-track { background: transparent; }
+.kpop-celebration__mini-sidebar::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); border-radius: 4px; }
+
+.kpop-celebration__mini-item {
+  width: 100%; border: 1px solid transparent; border-radius: 6px; padding: 8px 10px; background: transparent; text-align: left;
+  display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s;
+  flex: 0 0 auto;
+}
+.kpop-celebration__mini-item:hover { background: var(--bg-hover); }
+.kpop-celebration__mini-item.is-active { background: var(--bg-active); }
+.kpop-celebration__mini-left { display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1; }
+
+.kpop-celebration__mini-rank { font-size: 13px; font-weight: 900; flex: 0 0 auto; width: auto; min-width: 0; padding-right: 0; color: var(--text-muted); transition: color 0.2s; text-align: left; font-variant-numeric: tabular-nums; }
+.kpop-celebration__mini-rank.is-top { color: var(--accent-strong); }
+.kpop-celebration__mini-item.is-active .kpop-celebration__mini-rank { color: var(--accent-strong); }
+
+.kpop-celebration__mini-title { 
+  font-size: 12px; font-weight: 500; flex: 1 1 0%; min-width: 0; margin: 0; color: var(--text-sub);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.2s, font-weight 0.2s;
+}
+.kpop-celebration__mini-item.is-active .kpop-celebration__mini-title { color: var(--text-main); font-weight: 700; }
+.kpop-celebration__mini-item:hover .kpop-celebration__mini-title { color: var(--text-main); }
+.kpop-celebration__mini-trend { display: inline-flex; align-items: center; justify-content: flex-end; flex: 0 0 25px; width: 36px; gap: 2px; font-size: 10px; font-weight: 700; }
+.kpop-celebration__mini-trend.is-up { color: var(--ok-color); }
+.kpop-celebration__mini-trend.is-down { color: var(--down-color); }
+.kpop-celebration__mini-trend.is-same { color: var(--text-muted); }
+
+/* 모바일 뷰어 대응 */
+@media (max-width: 900px) {
+  .kpop-celebration__main-row { flex-direction: column; width: 100%; min-height: 0; height: auto !important; overflow: visible; align-items: stretch; }
+  .kpop-celebration__hero-main { padding: 6px 8px; width: 100%; flex-wrap: nowrap; gap: 8px; }
+  .kpop-celebration__left { flex: 0 0 64px; width: 64px; height: 64px; }
+  .kpop-celebration__title { font-size: 20px; }
+  .kpop-celebration__artist { font-size: 12px; }
+  
+  .kpop-celebration__right {
+    flex: 0 0 auto; width: auto; padding: 0 0 0 12px; margin-top: 0; border-left: 1px solid var(--border-light);
+    border-top: none; flex-direction: column; justify-content: center; align-items: flex-end;
+  }
+  .kpop-celebration__right.is-music-show {
+    flex: 0 0 110px;
+    width: 110px;
+    min-width: 110px;
+    align-items: flex-end;
+    border-left: 1px solid var(--border-light);
+    border-top: none;
+    padding-left: 8px !important;
+    padding-right: 0 !important;
+  }
+  .kpop-celebration__right.is-music-show .kpop-celebration__stats,
+  .kpop-celebration__right.is-music-show .kpop-celebration__points.stage-winner-main,
+  .kpop-celebration__right.is-music-show .stage-winner-card {
+    align-items: flex-end;
+  }
+  .kpop-celebration__right.is-music-show .stage-winner-card { padding: 6px 7px; }
+  .kpop-celebration__right.is-music-show .stage-winner-artist,
+  .kpop-celebration__right.is-music-show .stage-winner-song { max-width: 93px; }
+  .kpop-celebration__right.is-music-show .kpop-celebration__actions {
+    gap: 6px;
+  }
+  .kpop-celebration__right.is-music-show .kpop-celebration__details-btn {
+    width: 45px;
+    min-width: 42px;
+    height: 15px;
+    justify-content: center;
+    padding: 0;
+    border-radius: 8px;
+  }
+  .kpop-celebration__right.is-music-show .kpop-celebration__details-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .kpop-celebration__right.is-music-show .kpop-celebration__details-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .stage-winner-card { padding: 7px 8px; }
+  .stage-winner-artist { max-width: 118px; font-size: 15px; }
+  .stage-winner-song { max-width: 118px; }
+  .kpop-celebration__stats { align-items: flex-end;}
+  .kpop-celebration__points { font-size: 24px; }
+  
+  .kpop-celebration__mini-sidebar {
+    flex: 0 0 auto; width: 100%; border-left: none; border-top: 1px solid var(--border-light);
+    display: flex !important; flex-direction: row; gap: 8px; padding: 8px; overflow-x: auto; overflow-y: hidden;
+    max-height: none; min-height: 56px; position: relative; z-index: 2; visibility: visible !important;
+    opacity: 1; background: var(--bg-sidebar); -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity;
+  }
+  .kpop-celebration__mini-rank { flex-basis: auto; width: auto; min-width: 0; padding-right: 0; }
+  .kpop-celebration__mini-item { flex: 0 0 156px; width: 156px; max-width: 156px; scroll-snap-align: start; padding: 8px 10px; }
+}
+
+@keyframes scrollPlatforms { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ==========================================================================
+   모달 (Modal) 스타일
+   ========================================================================== */
+.kpop-modal-backdrop {
+  position: fixed; inset: 0; background-color: var(--modal-overlay);
+  backdrop-filter: blur(4px); z-index: 2000; display: flex;
+  align-items: center; justify-content: center; padding: 20px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.kpop-modal-backdrop.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+
+.kpop-modal-content {
+  background-color: var(--secondary); border: 2px solid var(--primary-low-mid);
+  border-radius: 16px; width: 100%; max-width: 680px; max-height: 90vh;
+  overflow-y: auto; position: relative; box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.35);
+  transform: translateY(20px); transition: transform 0.25s ease, background-color 0.3s ease;
+  scrollbar-gutter: stable; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+}
+
+.kpop-modal-content:focus { outline: none; }
+
+.kpop-modal-backdrop.is-open .kpop-modal-content { transform: translateY(0); }
+
+.kpop-modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 24px 24px 0 24px; border-bottom: 1px solid var(--border-light);
+}
+
+.kpop-modal-header-info { display: flex; gap: 16px; min-width: 0; }
+
+.kpop-modal-cover {
+  width: 80px; height: 80px; border-radius: 8px;
+  object-fit: cover; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.kpop-modal-title-wrap { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.kpop-modal-title { font-size: 24px; font-weight: 900; color: var(--text-main); margin-bottom: 4px; line-height: 1.2; word-break: break-word; }
+.kpop-modal-artist { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+
+.kpop-modal-close {
+  background: transparent; color: var(--text-muted); border: none;
+  padding: 4px; border-radius: 4px; cursor: pointer; transition: color 0.2s, background-color 0.2s;
+}
+.kpop-modal-close:hover { color: var(--text-main); background-color: var(--bg-active); }
+
+.kpop-modal-body { padding: 24px; overflow: hidden; }
+.kpop-modal-section-title {
+  font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.kpop-modal-table-wrapper {
+  width: 100%; overflow-x: auto; border: 1px solid var(--border-light);
+  border-radius: 8px; background-color: var(--bg-sidebar);
+}
+
+.kpop-modal-table {
+  width: 100%; min-width: 500px; border-collapse: collapse;
+  text-align: center; font-size: 13px; color: var(--text-sub);
+}
+
+.kpop-modal-table th {
+  background-color: var(--bg-hover); color: var(--text-muted);
+  font-weight: 700; padding: 12px 8px; border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+
+.kpop-modal-table td { padding: 12px 8px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+
+.kpop-modal-table td.platform-col {
+  font-weight: 900; border-right: 1px solid var(--border-light);
+  background-color: var(--bg-hover);
+}
+
+.rank-cell-wrapper { display: inline-flex; align-items: center; justify-content: center; }
+.kpop-modal-table .micro-trend { font-size: 10px; margin-left: 6px; }
+.kpop-modal-table .micro-trend svg { width: 10px; height: 10px; }
+
+.kpop-modal-table .color-melon,
+.kpop-modal-table .color-genie,
+.kpop-modal-table .color-youtube,
+.kpop-modal-table .color-flo,
+.kpop-modal-table .color-vibe,
+.kpop-modal-table .color-bugs,
+.kpop-modal-table .color-ichart { color: var(--info-color); }
+
+.kpop-modal-table .rank-highlight {
+  font-weight: 900; color: var(--text-main);
+  background-color: var(--bg-active); padding: 2px 8px; border-radius: 4px;
+}
+
+.kpop-modal-points-summary {
+  border-top: 1px solid var(--border-light);
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; 
+}
+
+.kpop-modal-points-title { font-size: 14px; font-weight: 700; color: var(--text-muted); }
+.kpop-modal-points-total { font-size: 32px; font-weight: 900; color: var(--accent-strong); }
+
+.kpop-modal-content::-webkit-scrollbar,
+.kpop-modal-table-wrapper::-webkit-scrollbar { width: 6px; height: 6px; }
+.kpop-modal-content::-webkit-scrollbar-track,
+.kpop-modal-table-wrapper::-webkit-scrollbar-track { background: transparent; }
+.kpop-modal-content::-webkit-scrollbar-thumb,
+.kpop-modal-table-wrapper::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); border-radius: 4px; }
+
+@media (max-width: 640px) {
+  .kpop-modal-backdrop { padding: 12px; }
+  .kpop-modal-header { padding: 20px 16px 0 16px; }
+  .kpop-modal-body { padding: 16px; }
+  .kpop-modal-title { font-size: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kpop-celebration__cover,
+  .kpop-celebration__cover-link:hover .kpop-celebration__cover,
+  .kpop-celebration__platform-track,
+  .animate-fade-in,
+  .kpop-modal-backdrop,
+  .kpop-modal-content {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

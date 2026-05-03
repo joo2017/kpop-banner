@@ -1,0 +1,10 @@
+zh_CN:
+  site_settings:
+    kpop_banner_enabled: "启用 K-pop Banner 插件。"
+    kpop_banner_ui_enabled: "由这个插件渲染 K-pop Banner 界面。旧主题组件仍启用时请保持关闭。"
+    kpop_banner_data_endpoint: "K-pop Banner 读取榜单数据的统一接口。"
+    kpop_banner_access_mode: "谁可以访问 K-pop Banner 数据：public_limited、logged_in、group 或 admin。"
+    kpop_banner_allowed_groups: "当访问模式为 group 时，允许访问 K-pop Banner 数据的用户组。"
+    kpop_banner_data_dir: "服务器私有 K-pop JSON 数据目录。"
+    kpop_banner_cache_ttl_seconds: "解析后的 K-pop JSON 缓存秒数。"
+    kpop_banner_reappear_minutes: "用户关闭 K-pop Banner 后，多少分钟后可以重新出现。"

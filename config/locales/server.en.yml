@@ -1,0 +1,10 @@
+en:
+  site_settings:
+    kpop_banner_enabled: "Enable the K-pop banner plugin."
+    kpop_banner_ui_enabled: "Render the K-pop banner UI from this plugin. Keep off while the old theme component is still enabled."
+    kpop_banner_data_endpoint: "Base endpoint the K-pop banner uses for chart data."
+    kpop_banner_access_mode: "Who can access K-pop banner data: public_limited, logged_in, group, or admin."
+    kpop_banner_allowed_groups: "Groups allowed to access K-pop banner data when access mode is group."
+    kpop_banner_data_dir: "Server directory containing private K-pop JSON data files."
+    kpop_banner_cache_ttl_seconds: "How long parsed K-pop JSON is cached, in seconds."
+    kpop_banner_reappear_minutes: "Minutes before the dismissed K-pop banner can reappear."
