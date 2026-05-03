@@ -3,7 +3,7 @@
 # name: discourse-kpop-banner
 # about: Displays the K-pop banner and serves private K-pop chart data through Discourse
 # version: 0.1.0
-# authors: OhMyOpenCode
+# authors: kpann
 # required_version: 2.7.0
 
 enabled_site_setting :kpop_banner_enabled
