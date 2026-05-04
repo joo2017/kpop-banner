@@ -107,16 +107,20 @@ function parsePerformanceEntry($, element, fallbackOrder) {
 
   const orderText = cleanText($(children[0]).text());
   const order = orderText && /^\d+$/.test(orderText) ? Number(orderText) : fallbackOrder;
-  const titleArtistText = $(children[2])
+  const titleNode = $(children[2]);
+  const titleArtistText = titleNode
     .text()
     .split("\n")
     .map(cleanText)
     .filter(Boolean);
-  const song = titleArtistText[0] || null;
-  const artist = titleArtistText[1] || null;
+  const song = cleanText(titleNode.find("h4").first().text()) || titleArtistText[0] || null;
+  const artist = cleanText(titleNode.find("p").first().text()) || titleArtistText[1] || null;
 
   const badges = children.length >= 4
-    ? $(children[3]).text().split("\n").map(cleanText).filter(Boolean).filter((badge) => BADGE_VALUES.has(badge.toLowerCase())).map((badge) => badge.toUpperCase())
+    ? ($(children[3]).find("span").toArray().length
+        ? $(children[3]).find("span").toArray().map((badge) => cleanText($(badge).text()))
+        : $(children[3]).text().split("\n").map(cleanText))
+      .filter(Boolean).filter((badge) => BADGE_VALUES.has(badge.toLowerCase())).map((badge) => badge.toUpperCase())
     : [];
   const img = $(element).find("img").first();
   let thumbnail = img.attr("src") || null;
